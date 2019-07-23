@@ -59,8 +59,7 @@ vec2 pixelize(vec2 uv, float pixelSize) {
 
 vec3 colorLUT(vec3 color) {
 	color = clamp(color, 0.0, 1.0);
-	// i don't understand why i can't floor it multiplied by 64 and i think this is causing some color mismatch
-	color = floor(color*63.9) / 64.0;
+	color = floor(color*63.0) / 64.0;
 	vec3 colorspace = color * vec3(0.125, 0.125, 64.0);
 	vec2 lutcoord = vec2(colorspace.r + mod(colorspace.b, 8.0) * 0.125, colorspace.g + floor(colorspace.b / 8.0) * 0.125);
 
