@@ -24,7 +24,7 @@ uniform sampler2D colortex3;
 uniform float viewWidth;
 uniform float viewHeight;
 
-const int bayer8[64] = {
+const int bayer8[64] = int[](
   0, 32,  8, 40,  2, 34, 10, 42, /* 8x8 Bayer ordered dithering */
 	48, 16, 56, 24, 50, 18, 58, 26, /* pattern. Each input pixel */
 	12, 44,  4, 36, 14, 46,  6, 38, /* is scaled to the 0..63 range */
@@ -33,9 +33,9 @@ const int bayer8[64] = {
 	51, 19, 59, 27, 49, 17, 57, 25,
 	15, 47,  7, 39, 13, 45,  5, 37,
 	63, 31, 55, 23, 61, 29, 53, 21
-};
+);
 
-const vec2 pixelSizes[] = {
+const vec2 pixelSizes[10] = vec2[](
 	vec2(1.0),
 	vec2(2.0),
 	vec2(3.0),
@@ -46,7 +46,7 @@ const vec2 pixelSizes[] = {
 	vec2(8.0),
 	vec2(4.0, 2.0),
 	vec2(6.0, 3.0)
-};
+);
 
 // quantize coords to resolution
 vec2 pixelize(vec2 uv, vec2 pixelSize) {
