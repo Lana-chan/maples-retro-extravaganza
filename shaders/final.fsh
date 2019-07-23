@@ -25,7 +25,7 @@ uniform float viewWidth;
 uniform float viewHeight;
 
 const int bayer8[64] = int[](
-  0, 32,  8, 40,  2, 34, 10, 42, /* 8x8 Bayer ordered dithering */
+	 0, 32,  8, 40,  2, 34, 10, 42, /* 8x8 Bayer ordered dithering */
 	48, 16, 56, 24, 50, 18, 58, 26, /* pattern. Each input pixel */
 	12, 44,  4, 36, 14, 46,  6, 38, /* is scaled to the 0..63 range */
 	60, 28, 52, 20, 62, 30, 54, 22, /* before looking in this table */
@@ -58,26 +58,18 @@ vec2 pixelize(vec2 uv, float pixelSize) {
 }
 
 vec3 colorLUT(vec3 color) {
+	// this gives me the coordinate for 1 LUT
 	color = clamp(color, 0.0, 1.0);
 	color = floor(color*63.0) / 64.0;
 	vec3 colorspace = color * vec3(0.125, 0.125, 64.0);
 	vec2 lutcoord = vec2(colorspace.r + mod(colorspace.b, 8.0) * 0.125, colorspace.g + floor(colorspace.b / 8.0) * 0.125);
 
-	#if (palette==0)
-		return texture2D(colortex7, lutcoord).rgb;
-	#endif
-	#if (palette==1)
-		return texture2D(colortex6, lutcoord).rgb;
-	#endif
-	#if (palette==2)
-		return texture2D(colortex5, lutcoord).rgb;
-	#endif
-	#if (palette==3)
-		return texture2D(colortex4, lutcoord).rgb;
-	#endif
-	#if (palette==4)
-		return texture2D(colortex3, lutcoord).rgb;
-	#endif
+	// this transforms it into the sub-LUT selected
+	vec2 paletteOffset = vec2(mod(palette_id, 4.0), floor(palette_id * 0.25)) * 0.25;
+	lutcoord *= 0.25;
+	lutcoord += paletteOffset;
+
+	return texture2D(colortex7, lutcoord).rgb;
 }
 
 // compares both regular color and bayer-altered color for closest match in the palette and returns it

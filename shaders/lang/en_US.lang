@@ -1,9 +1,15 @@
-option.palette=Palette
-value.palette.0=Sage Minor System
-value.palette.1=For Workgroups
-value.palette.2=Minecraft16
-value.palette.3=Captain 64
-value.palette.4=Gremlin Boy
+option.palette_id=Palette
+value.palette_id.0=Sage Minor System
+value.palette_id.1=For Workgroups
+value.palette_id.2=Minecraft16
+value.palette_id.3=Captain 64
+value.palette_id.4=Gremlin Boy
+value.palette_id.5=Virtual Girl
+value.palette_id.6=8088 Mode 0
+value.palette_id.7=8088 Mode 1
+value.palette_id.8=Sir Clive's Special
+value.palette_id.9=Hypercard Dreams
+value.palette_id.10=Mode 13h
 
 option.pixel_size=Pixel Size
 value.pixel_size.0=1x
