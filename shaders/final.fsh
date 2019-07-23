@@ -48,7 +48,7 @@ const vec2 pixelSizes[10] = vec2[](
 	vec2(6.0, 3.0)
 );
 
-// quantize coords to resolution
+// quantize coords to low resolution
 vec2 pixelize(vec2 uv, vec2 pixelSize) {
 	vec2 factor = vec2(pixelSize) / vec2(viewWidth, viewHeight);
 	return floor(uv / factor) * factor;
@@ -57,6 +57,7 @@ vec2 pixelize(vec2 uv, float pixelSize) {
 	return pixelize(uv, vec2(pixelSize));
 }
 
+// look up target color, LUT is formatted as 4x4 luts of 512x512 each in a standard format with 64x64x64 color resolution
 vec3 colorLUT(vec3 color) {
 	// this gives me the coordinate for 1 LUT
 	color = clamp(color, 0.0, 1.0);
@@ -74,35 +75,16 @@ vec3 colorLUT(vec3 color) {
 
 // compares both regular color and bayer-altered color for closest match in the palette and returns it
 vec3 pickClosest(vec3 color, vec3 bayerColor) {
-	/*vec3 palcolor = palette[0];
-	float dist = distance(color, palcolor);
-	int index = 0;
-	float tdist;
-	
-	for(int i = 1; i < paletteSize; i++) {
-		palcolor = palette[i];
-		tdist = distance(color, palcolor);
-		if(tdist < dist) {
-			dist = tdist;
-			index = i;
-		}
-		tdist = distance(bayerColor, palcolor);
-		if(tdist < dist) {
-			dist = tdist;
-			index = i;
-		}
-	}
-
-	return palette[index];*/
-
 	vec3 normal = colorLUT(color);
 	vec3 dither = colorLUT(bayerColor);
 	
+	// whichever is closest to the LUT wins, weighed by the dither factor
 	if(distance(normal, color)*dither_factor < distance(dither, bayerColor)*(1-dither_factor))
 		return normal;
 	return dither;
 }
 
+// adjust brightness, contrast and gamma levels of a color
 vec3 levels(vec3 color, float brightness, float contrast, vec3 gamma) {
 	vec3 value = (color - 0.5) * contrast + 0.5;
 	value = clamp(value + brightness, 0.0, 1.0);
@@ -112,15 +94,21 @@ vec3 levels(vec3 color, float brightness, float contrast, float gamma) {
 	return levels(color, brightness, contrast, vec3(gamma));
 }
 
+// applies the dithering filter to a color map
 vec3 dither8x8(vec2 coord, vec3 color, vec2 pixelSize) {
+	// reduces pixel space to the selected pixel size
 	vec2 pixelCoord = floor((coord * vec2(viewWidth, viewHeight)) / vec2(pixelSize) + 0.5);
 
+	// optional step, increasing contrast yields better results in a more limited palette
 	color = levels(color, Brightness, Contrast, Gamma);
+
+	// applies the bayer matrix filter to the color map
 	pixelCoord = mod(pixelCoord, 8.0);
 	int index = int(pixelCoord.x + (pixelCoord.y * 8));
 	vec3 bayerColor = (color + vec3(bayer8[index]-31)/128.0);
+	
+	// returns the best dithered color
 	color = pickClosest(color, bayerColor);
-
 	return color;
 }
 vec3 dither8x8(vec2 coord, vec3 color, float pixelSize) {
