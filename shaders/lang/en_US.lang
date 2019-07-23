@@ -24,3 +24,5 @@ value.pixel_size.8=Double-wide 4x2
 value.pixel_size.9=Double-wide 6x3
 
 option.dither_factor=Dither factor
+
+option.Preprocess=Pre-processing

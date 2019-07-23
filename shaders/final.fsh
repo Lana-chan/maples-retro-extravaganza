@@ -99,9 +99,6 @@ vec3 dither8x8(vec2 coord, vec3 color, vec2 pixelSize) {
 	// reduces pixel space to the selected pixel size
 	vec2 pixelCoord = floor((coord * vec2(viewWidth, viewHeight)) / vec2(pixelSize) + 0.5);
 
-	// optional step, increasing contrast yields better results in a more limited palette
-	color = levels(color, Brightness, Contrast, Gamma);
-
 	// applies the bayer matrix filter to the color map
 	pixelCoord = mod(pixelCoord, 8.0);
 	int index = int(pixelCoord.x + (pixelCoord.y * 8));
@@ -124,6 +121,11 @@ void main() {
 	#endif
 
 	vec3 color = texture2D(texture, newTC).rgb;
+
+	#ifdef Preprocess
+		// optional step, increasing contrast yields better results in a more limited palette
+		color = levels(color, Brightness, Contrast, Gamma);
+	#endif
 
 	#ifdef Dither
 		color = dither8x8(newTC, color, psize);
