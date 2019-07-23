@@ -122,7 +122,7 @@ vec3 levels(vec3 color, float brightness, float contrast, float gamma) {
 }
 
 vec3 dither8x8(vec2 coord, vec3 color, vec2 pixelSize) {
-	vec2 pixelCoord = round((coord * vec2(viewWidth, viewHeight)) / vec2(pixelSize));
+	vec2 pixelCoord = floor((coord * vec2(viewWidth, viewHeight)) / vec2(pixelSize) + 0.5);
 
 	color = levels(color, Brightness, Contrast, Gamma);
 	pixelCoord = mod(pixelCoord, 8.0);
