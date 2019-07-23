@@ -1,0 +1,10 @@
+#define Pixel											// Enables or disables pixelization
+#define pixel_size 3							//[0 1 2 3 4 5 6 7 8 9] Chooses the pixel size for pixelization and color dithering
+
+#define Dither										// Enables or disables palette color filtering
+#define palette 0									//[0 1 2 3 4] Chooses the palette to apply
+#define dither_factor 0.5					//[0.0 0.1 0.2 0.3 0.4 0.5 0.6 0.7 0.8 0.9 1.0] Chooses how much dither to use, 0 is no dither and 1 is only dither
+
+#define Brightness 0.0						//[-0.5 -0.4 -0.3 -0.2 -0.1 0.0 0.1 0.2 0.3 0.4 0.5] Pre-processing image brightness
+#define Contrast 1.6							//[0.5 0.6 0.7 0.8 0.9 1.0 1.1 1.2 1.3 1.4 1.5 1.6 1.7 1.8 1.9 2.0] Pre-processing image contrast
+#define Gamma 0.7									//[0.2 0.3 0.4 0.5 0.6 0.7 0.8 0.9 1.0 1.1 1.2 1.3 1.4 1.5 1.6 1.7 1.8 1.8 2.0 2.1 2.2 2.3 2.4 2.5] Pre-processing image gamma

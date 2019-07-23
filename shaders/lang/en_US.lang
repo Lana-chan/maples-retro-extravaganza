@@ -1,0 +1,20 @@
+option.palette=Palette
+value.palette.0=Sage Minor System
+value.palette.1=For Workgroups
+value.palette.2=Minecraft16
+value.palette.3=Captain 64
+value.palette.4=Gremlin Boy
+
+option.pixel_size=Pixel Size
+value.pixel_size.0=1x
+value.pixel_size.1=2x
+value.pixel_size.2=3x
+value.pixel_size.3=4x
+value.pixel_size.4=5x
+value.pixel_size.5=6x
+value.pixel_size.6=7x
+value.pixel_size.7=8x CHONKY
+value.pixel_size.8=Double-wide 4x2
+value.pixel_size.9=Double-wide 6x3
+
+option.dither_factor=Dither factor
