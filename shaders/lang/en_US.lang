@@ -10,6 +10,7 @@ value.s_palette_id.7=8088 Mode 1
 value.s_palette_id.8=Sir Clive's Special
 value.s_palette_id.9=Hypercard Dreams
 value.s_palette_id.10=Mode 13h
+value.s_palette_id.11=SimpleJPC16 by @adigunpolack
 
 option.pixel_size=Pixel Size
 value.pixel_size.0=1x
