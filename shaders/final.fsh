@@ -58,11 +58,11 @@ vec2 pixelize(vec2 uv, float pixelSize) {
 }
 
 // look up target color, LUT is formatted as 4x4 luts of 512x512 each in a standard format with 64x64x64 color resolution
-vec3 colorLUT(vec3 color) {
+vec3 colorLUT(vec3 color, int palette_id) {
 	// this gives me the coordinate for 1 LUT
-	color = clamp(color, 0.0, 1.0);
-	color = floor(color*63.0) / 64.0;
-	vec3 colorspace = color * vec3(0.125, 0.125, 64.0);
+	vec3 colorspace = clamp(color, 0.0, 1.0);
+	colorspace = floor(colorspace*63.0+0.5) / 64.0;
+	colorspace = colorspace * vec3(0.125, 0.125, 64.0);
 	vec2 lutcoord = vec2(colorspace.r + mod(colorspace.b, 8.0) * 0.125, colorspace.g + floor(colorspace.b / 8.0) * 0.125);
 
 	// this transforms it into the sub-LUT selected
@@ -75,11 +75,12 @@ vec3 colorLUT(vec3 color) {
 
 // compares both regular color and bayer-altered color for closest match in the palette and returns it
 vec3 pickClosest(vec3 color, vec3 bayerColor) {
-	vec3 normal = colorLUT(color);
-	vec3 dither = colorLUT(bayerColor);
+	vec3 normal = colorLUT(color, s_palette_id);
+	vec3 dither = colorLUT(bayerColor, s_palette_id);
+	//return color;
 	
 	// whichever is closest to the LUT wins, weighed by the dither factor
-	if(distance(normal, color)*dither_factor < distance(dither, bayerColor)*(1-dither_factor))
+	if(distance(normal, color)*dither_factor < distance(dither, color)*(1-dither_factor))
 		return normal;
 	return dither;
 }
@@ -102,7 +103,8 @@ vec3 dither8x8(vec2 coord, vec3 color, vec2 pixelSize) {
 	// applies the bayer matrix filter to the color map
 	pixelCoord = mod(pixelCoord, 8.0);
 	int index = int(pixelCoord.x + (pixelCoord.y * 8));
-	vec3 bayerColor = (color + vec3(bayer8[index]-31)/128.0);
+	//vec3 bayerColor = color + ((bayer8[index]/128.0)-0.5);
+	vec3 bayerColor = (color + vec3(bayer8[index]-31)/256.0);
 	
 	// returns the best dithered color
 	color = pickClosest(color, bayerColor);
@@ -121,6 +123,7 @@ void main() {
 	#endif
 
 	vec3 color = texture2D(texture, newTC).rgb;
+	color = colorLUT(color, 15);
 
 	#ifdef Preprocess
 		// optional step, increasing contrast yields better results in a more limited palette
