@@ -27,3 +27,8 @@ value.pixel_size.9=Double-wide 6x3
 option.dither_factor=Dither factor
 
 option.Preprocess=Pre-processing
+
+option.outline_mode=Outline mode
+value.outline_mode.0=Invert
+value.outline_mode.1=White
+value.outline_mode.2=Black

@@ -14,12 +14,12 @@
 
 varying vec2 texcoord;
 uniform sampler2D texture;
+uniform sampler2D depthtex0;
+uniform float near;
+uniform float far;
+// wherever you are
 
 uniform sampler2D colortex7;
-uniform sampler2D colortex6;
-uniform sampler2D colortex5;
-uniform sampler2D colortex4;
-uniform sampler2D colortex3;
 
 uniform float viewWidth;
 uniform float viewHeight;
@@ -46,6 +46,19 @@ const vec2 pixelSizes[10] = vec2[](
 	vec2(8.0),
 	vec2(4.0, 2.0),
 	vec2(6.0, 3.0)
+);
+
+// sobel matrices for edge detection
+mat3 sobel_y = mat3( 
+	1.0, 0.0, -1.0, 
+	2.0, 0.0, -2.0, 
+	1.0, 0.0, -1.0 
+);
+
+mat3 sobel_x = mat3( 
+	1.0, 2.0, 1.0, 
+	0.0, 0.0, 0.0, 
+-1.0, -2.0, -1.0 
 );
 
 // quantize coords to low resolution
@@ -114,6 +127,30 @@ vec3 dither8x8(vec2 coord, vec3 color, float pixelSize) {
 	return dither8x8(coord, color, vec2(pixelSize));
 }
 
+float ld(float depth) {
+   return (2.0 * near) / (far + near - depth * (far - near));
+}
+float outline(vec3 color, vec2 coord, vec2 pixelSize) {
+	vec2 pixelCoord = 1.0 / vec2(viewWidth, viewHeight) * pixelSize / 2;
+
+	mat3 I;
+	for (int i=0; i<3; i++) {
+		for (int j=0; j<3; j++) {
+			float depth = ld(texture2D(depthtex0, coord + vec2(i-1, j-1) * pixelCoord).r);
+			I[i][j] = depth; 
+		}
+	}
+
+	float gx = dot(sobel_x[0], I[0]) + dot(sobel_x[1], I[1]) + dot(sobel_x[2], I[2]); 
+	float gy = dot(sobel_y[0], I[0]) + dot(sobel_y[1], I[1]) + dot(sobel_y[2], I[2]);
+
+	float g = sqrt(pow(gx, 2.0)+pow(gy, 2.0));
+
+	g = (g > 0.05 ? 1.0 : 0.0);
+
+	return g;
+}
+
 void main() {
 	vec2 newTC = texcoord;
 	vec2 psize = pixelSizes[pixel_size];
@@ -128,6 +165,20 @@ void main() {
 	#ifdef Preprocess
 		// optional step, increasing contrast yields better results in a more limited palette
 		color = levels(color, Brightness, Contrast, Gamma);
+	#endif
+
+	#ifdef Outlines
+		float outl = outline(color, newTC, psize);
+
+		#if (outline_mode == 0) // invert
+			color = (outl == 1.0 ? 1-color : color);
+		#endif
+		#if (outline_mode == 1) // white
+			color = (outl == 1.0 ? vec3(1.0) : color);
+		#endif
+		#if (outline_mode == 2) // black
+			color = (outl == 1.0 ? vec3(0.0) : color);
+		#endif
 	#endif
 
 	#ifdef Dither
