@@ -38,4 +38,4 @@ you can also unpack it into its own folder inside shaderpacks
 
 ## modding
 
-if you're feeling adventurous, making a color look-up image for a custom palette is simple, just take the identity LUT in `shaders/textures/clut_identity.png` and modify it to fit your palette. there are also some additional palettes not enabled in the shader that you can play around with. look at `shaders/shaders.properties` to find where to change the path for LUT textures.
+if you're feeling adventurous, making a color look-up image for a custom palette is simple, just take the identity LUT in `shaders/tools/clut_identity.png` and modify it to fit your palette. there are also some additional palettes not enabled in the shader that you can play around with. look at `shaders/shaders.properties` to find where to change the path for LUT textures.
