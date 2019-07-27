@@ -86,15 +86,10 @@ vec3 colorLUT(vec3 color, int palette_id) {
 	return texture2D(colortex7, lutcoord).rgb;
 }
 
-// compares both regular color and bayer-altered color for closest match in the palette and returns it
+// returns the dithered screen. low enough dither factors already give up patches of solid colors so calculating color distance is no longer necessary
 vec3 pickClosest(vec3 color, vec3 bayerColor) {
-	vec3 normal = colorLUT(color, s_palette_id);
 	vec3 dither = colorLUT(bayerColor, s_palette_id);
-	//return color;
 	
-	// whichever is closest to the LUT wins, weighed by the dither factor
-	if(distance(normal, color)*dither_factor < distance(dither, color)*(1-dither_factor))
-		return normal;
 	return dither;
 }
 
@@ -116,8 +111,7 @@ vec3 dither8x8(vec2 coord, vec3 color, vec2 pixelSize) {
 	// applies the bayer matrix filter to the color map
 	pixelCoord = mod(pixelCoord, 8.0);
 	int index = int(pixelCoord.x + (pixelCoord.y * 8));
-	//vec3 bayerColor = color + ((bayer8[index]/128.0)-0.5);
-	vec3 bayerColor = (color + vec3(bayer8[index]-31)/256.0);
+	vec3 bayerColor = (color + (vec3(bayer8[index]-31)/32.0) * (dither_factor / 8.0));
 	
 	// returns the best dithered color
 	color = pickClosest(color, bayerColor);
