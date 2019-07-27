@@ -86,13 +86,6 @@ vec3 colorLUT(vec3 color, int palette_id) {
 	return texture2D(colortex7, lutcoord).rgb;
 }
 
-// returns the dithered screen. low enough dither factors already give up patches of solid colors so calculating color distance is no longer necessary
-vec3 pickClosest(vec3 color, vec3 bayerColor) {
-	vec3 dither = colorLUT(bayerColor, s_palette_id);
-	
-	return dither;
-}
-
 // adjust brightness, contrast and gamma levels of a color
 vec3 levels(vec3 color, float brightness, float contrast, vec3 gamma) {
 	vec3 value = (color - 0.5) * contrast + 0.5;
@@ -112,9 +105,9 @@ vec3 dither8x8(vec2 coord, vec3 color, vec2 pixelSize) {
 	pixelCoord = mod(pixelCoord, 8.0);
 	int index = int(pixelCoord.x + (pixelCoord.y * 8));
 	vec3 bayerColor = (color + (vec3(bayer8[index]-31)/32.0) * (dither_factor / 8.0));
-	
-	// returns the best dithered color
-	color = pickClosest(color, bayerColor);
+	// limits it to the selected palette
+	color = colorLUT(bayerColor, s_palette_id);
+
 	return color;
 }
 vec3 dither8x8(vec2 coord, vec3 color, float pixelSize) {
@@ -124,7 +117,8 @@ vec3 dither8x8(vec2 coord, vec3 color, float pixelSize) {
 float ld(float depth) {
    return (2.0 * near) / (far + near - depth * (far - near));
 }
-float outline(vec3 color, vec2 coord, vec2 pixelSize) {
+// returns the monochrome map of an outline based on the depth map of the scene
+float outline(vec2 coord, vec2 pixelSize) {
 	vec2 pixelCoord = 1.0 / vec2(viewWidth, viewHeight) * pixelSize / 2;
 
 	mat3 I;
@@ -162,7 +156,7 @@ void main() {
 	#endif
 
 	#ifdef Outlines
-		float outl = outline(color, newTC, psize);
+		float outl = outline(newTC, psize);
 
 		#if (outline_mode == 0) // invert
 			color = (outl == 1.0 ? 1-color : color);
