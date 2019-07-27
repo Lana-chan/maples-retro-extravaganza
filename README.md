@@ -15,6 +15,7 @@ included palettes:
 9. Hypercard Dreams (_Macintosh_)
 10. Mode 13h (_256 color VGA_)
 11. SimpleJPC-16 (_by [@adigunpolack](https://twitter.com/adigunpolack)_)
+12. Human Entertainment System (_NES_)
 
 ## screenshots
 
