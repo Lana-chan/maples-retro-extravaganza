@@ -1,3 +1,4 @@
+screen.pixel_screen=Pixel & Dither
 option.s_palette_id=Palette
 value.s_palette_id.0=Sage Minor System
 value.s_palette_id.1=For Workgroups
@@ -27,9 +28,14 @@ value.pixel_size.9=Double-wide 6x3
 
 option.dither_factor=Dither factor
 
-option.Preprocess=Pre-processing
-
 option.outline_mode=Outline mode
 value.outline_mode.0=Invert
 value.outline_mode.1=White
 value.outline_mode.2=Black
+
+screen.preproc_screen=Pre-processing
+option.Preprocess=Pre-processing
+
+screen.crt_screen=CRT effects
+option.sl_strength=Scanline Strength
+option.sl_thickness=Scanline Thickness

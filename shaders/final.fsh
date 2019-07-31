@@ -15,10 +15,12 @@
 varying vec2 texcoord;
 uniform sampler2D texture;
 uniform sampler2D colortex7;
+uniform sampler2D colortex6;
 uniform float viewWidth, viewHeight;
 
 #include "fragment/outline.glsl"
 #include "fragment/pixel.glsl"
+#include "fragment/crt.glsl"
 
 // pixel aspect ratios mapped to setting
 const vec2 pixelSizes[10] = vec2[](
@@ -70,5 +72,16 @@ void main() {
 		color = dither8x8(newTC, color, psize, colortex7, s_palette_id);
 	#endif
 
-	gl_FragColor = vec4(color,1.0);
+	#ifdef NTSC
+		float ntsc_strength = 0.3;
+		float ntscFilter = ntsc(color, newTC, psize, ntsc_strength);
+		color *= ntscFilter;
+	#endif
+
+	#ifdef Scanlines
+		color -= scanline(texcoord, psize, sl_thickness, sl_strength);
+		//color = levels(color, sl_strength/2.0, 1.0, 1.0);
+	#endif
+
+	gl_FragData[0] = vec4(color, 1.0);
 }
