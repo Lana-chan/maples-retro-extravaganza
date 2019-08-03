@@ -33,9 +33,7 @@ _Gremlin Boy (night)_
 
 ## usage
 
-get optifine installed in your java minecraft version of choice and download this repository as a zip into your shaderpacks folder
-
-you can also unpack it into its own folder inside shaderpacks
+get optifine installed in your java minecraft version of choice and download this repository as a zip, unpack it inside your `shaderpacks` folder such as you end up with a folder structure like so: `.minecraft\shaderpacks\maples-retro-extravaganza\`
 
 ## modding
 
