@@ -14,6 +14,7 @@
 
 varying vec2 texcoord;
 uniform sampler2D texture;
+uniform sampler2D colortex2;
 uniform sampler2D colortex7;
 uniform sampler2D colortex6;
 uniform float viewWidth, viewHeight;
@@ -35,8 +36,6 @@ const vec2 pixelSizes[10] = vec2[](
 	vec2(4.0, 2.0),
 	vec2(6.0, 3.0)
 );
-
-
 
 void main() {
 	vec2 newTC = texcoord;

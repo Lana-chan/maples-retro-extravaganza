@@ -40,7 +40,7 @@ float outline(vec2 coord, vec2 pixelSize) {
 	mat3 I;
 	for (int i=0; i<3; i++) {
 		for (int j=0; j<3; j++) {
-			float depth = ld(texture2D(depthtex0, coord + vec2(i-1, j-1) * pixelCoord).r);
+			float depth = texture2D(colortex2, coord + vec2(i-1, j-1) * pixelCoord).r;
 			I[i][j] = depth; 
 		}
 	}
@@ -54,3 +54,43 @@ float outline(vec2 coord, vec2 pixelSize) {
 
 	return g;
 }
+
+/*float outline(vec2 coord, vec2 pixelSize) {
+	vec2 d = 1.0 / vec2(viewWidth, viewHeight) * pixelSize / 2;
+  //float dx = 1.0 / uResolution.x;
+  //float dy = 1.0 / uResolution.y;
+
+  vec3 center = texture2D( colortex2, vec2(0.0, 0.0) ).rgb;
+
+  // sampling just these 3 neighboring fragments keeps the outline thin.
+  vec3 top = texture2D( colortex2, vec2(0.0, d.y) ).rgb;
+  vec3 topRight = texture2D( colortex2, vec2(d.x, d.y) ).rgb;
+  vec3 right = texture2D( colortex2, vec2(d.x, 0.0) ).rgb;
+
+  // the rest is pretty arbitrary, but seemed to give me the
+  // best-looking results for whatever reason.
+
+  vec3 t = center - top;
+  vec3 r = center - right;
+  vec3 tr = center - topRight;
+
+  t = abs( t );
+  r = abs( r );
+  tr = abs( tr );
+
+  float n;
+  n = max( n, t.x );
+  n = max( n, t.y );
+  n = max( n, t.z );
+  n = max( n, r.x );
+  n = max( n, r.y );
+  n = max( n, r.z );
+  n = max( n, tr.x );
+  n = max( n, tr.y );
+  n = max( n, tr.z );
+
+  // threshold and scale.
+  n = 1.0 - clamp( clamp((n * 2.0) - 0.8, 0.0, 1.0) * 1.5, 0.0, 1.0 );
+
+	return n;
+}*/
