@@ -20,6 +20,7 @@ uniform sampler2D normals;
 uniform sampler2D texture;
 uniform sampler2D lightmap;
 uniform int fogMode;
+uniform vec4 entityColor;
 
 void main() {
 	vec4 normalTex = texture2D(normals, texcoord) * 2.0 - 1.0;
@@ -30,6 +31,10 @@ void main() {
 
 	#ifdef BASIC
 		albedo = color;
+	#endif
+
+	#ifdef ENTITIES
+		albedo += entityColor;
 	#endif
 
 	gl_FragData[0] = albedo;
