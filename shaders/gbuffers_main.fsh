@@ -42,7 +42,7 @@ void main() {
 	// underwater treatment
 	// makes it darker off into the distance and gives blue tint
 	if(isEyeInWater == 1)
-		albedo *= vec4(vec3(1.0-pow(gl_FragCoord.z, 128.0)), 1.0) * vec4(0.5, 0.6, 1.0, 1.0);
+		albedo *= vec4(vec3(1.0-pow(gl_FragCoord.z, 128.0) + 1.0-pow(gl_FragCoord.z, 16.0)), 1.0) * vec4(0.5, 0.6, 1.0, 1.0);
 
 	// color/albedo map
 	gl_FragData[0] = albedo;
