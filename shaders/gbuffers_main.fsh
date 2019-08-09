@@ -21,6 +21,7 @@ uniform sampler2D texture;
 uniform sampler2D lightmap;
 uniform int fogMode;
 uniform vec4 entityColor;
+uniform int isEyeInWater;
 
 void main() {
 	vec4 normalTex = texture2D(normals, texcoord) * 2.0 - 1.0;
@@ -37,6 +38,11 @@ void main() {
 	#ifdef ENTITIES
 		albedo += entityColor;
 	#endif
+
+	// underwater treatment
+	// makes it darker off into the distance and gives blue tint
+	if(isEyeInWater == 1)
+		albedo *= vec4(vec3(1.0-pow(gl_FragCoord.z, 128.0)), 1.0) * vec4(0.5, 0.6, 1.0, 1.0);
 
 	// color/albedo map
 	gl_FragData[0] = albedo;
