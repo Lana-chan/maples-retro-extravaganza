@@ -17,6 +17,10 @@ attribute vec4 at_tangent;
 uniform mat4 gbufferModelView;
 uniform mat4 gbufferModelViewInverse;
 
+// all of this was adapted from an older shader. don't understand all of it yet
+// but the main goal with this whole file is to only pass everything no different than default rendering
+// except for the addition of normal map to final
+
 void main() {
 	vec3 normal   = gl_NormalMatrix * gl_Normal;
 	vec3 tangent  = gl_NormalMatrix * (at_tangent.xyz / at_tangent.w);

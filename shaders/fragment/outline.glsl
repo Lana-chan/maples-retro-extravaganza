@@ -55,6 +55,9 @@ float outline(vec2 coord, vec2 pixelSize) {
 	return g;
 }
 
+// normal outline technique from https://gamedev.stackexchange.com/a/86413
+// haven't gotten it to work yet
+
 /*float outline(vec2 coord, vec2 pixelSize) {
 	vec2 d = 1.0 / vec2(viewWidth, viewHeight) * pixelSize / 2;
   //float dx = 1.0 / uResolution.x;

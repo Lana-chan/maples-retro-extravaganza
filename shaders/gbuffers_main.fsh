@@ -24,26 +24,31 @@ uniform vec4 entityColor;
 
 void main() {
 	vec4 normalTex = texture2D(normals, texcoord) * 2.0 - 1.0;
-	
 	vec4 albedo;
 	
 	albedo = texture2D(texture, texcoord.st) * texture2D(lightmap, lmcoord.st) * color;
 
+	// avoids broken sky
 	#ifdef BASIC
 		albedo = color;
 	#endif
 
+	// entity color effect, hurt mob etc
 	#ifdef ENTITIES
 		albedo += entityColor;
 	#endif
 
+	// color/albedo map
 	gl_FragData[0] = albedo;
+	// depth map
 	gl_FragData[1] = vec4(vec3(gl_FragCoord.z), 1.0);
 	
+	// don't pass normals for weather (since normals are only used for outlines, this makes rain/snow not have outlines)
 	#ifndef WEATHER
 		gl_FragData[2] = vec4(normalize(TBN * normalTex.xyz) * 0.5 + 0.5, 1);
 	#endif
 	
+	// taken from another shader, not sure what it's doing but it affects fog and entity shadow sprites
 	if (fogMode == GL_EXP) {
 		gl_FragData[0].rgb = mix(gl_FragData[0].rgb, gl_Fog.color.rgb, 1.0 - clamp(exp(-gl_Fog.density * gl_FogFragCoord), 0.0, 1.0));
 	} else if (fogMode == GL_LINEAR) {
