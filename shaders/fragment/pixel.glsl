@@ -46,16 +46,6 @@ vec3 colorLUT(vec3 color, sampler2D lut, int palette_id) {
 	return texture2D(lut, lutcoord).rgb;
 }
 
-// adjust brightness, contrast and gamma levels of a color
-vec3 levels(vec3 color, float brightness, float contrast, vec3 gamma) {
-	vec3 value = (color - 0.5) * contrast + 0.5;
-	value = clamp(value + brightness, 0.0, 1.0);
-	return clamp(vec3(pow(abs(value.r), gamma.x),pow(abs(value.g), gamma.y),pow(abs(value.b), gamma.z)), 0.0, 1.0);
-}
-vec3 levels(vec3 color, float brightness, float contrast, float gamma) { 
-	return levels(color, brightness, contrast, vec3(gamma));
-}
-
 // applies the dithering filter to a color map
 vec3 dither8x8(vec2 coord, vec3 color, vec2 pixelSize, sampler2D lut, int palette_id) {
 	// reduces pixel space to the selected pixel size

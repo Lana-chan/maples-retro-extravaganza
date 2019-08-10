@@ -22,6 +22,7 @@ uniform float viewWidth, viewHeight;
 #include "fragment/outline.glsl"
 #include "fragment/pixel.glsl"
 #include "fragment/crt.glsl"
+#include "lib/utils.glsl"
 
 // pixel aspect ratios mapped to setting
 const vec2 pixelSizes[10] = vec2[](

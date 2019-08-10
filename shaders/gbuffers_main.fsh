@@ -23,6 +23,8 @@ uniform int fogMode;
 uniform vec4 entityColor;
 uniform int isEyeInWater;
 
+#include "lib/utils.glsl"
+
 void main() {
 	vec4 normalTex = texture2D(normals, texcoord) * 2.0 - 1.0;
 	vec4 albedo;
@@ -36,7 +38,9 @@ void main() {
 
 	// entity color effect, hurt mob etc
 	#ifdef ENTITIES
-		albedo += entityColor;
+		albedo.rgb += entityColor.rgb;
+		if(max3(albedo.rgb) > 1.0)
+			albedo.rgb /= max3(albedo.rgb);
 	#endif
 
 	// underwater treatment

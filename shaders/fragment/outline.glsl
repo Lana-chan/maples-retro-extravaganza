@@ -11,9 +11,6 @@
 // outline.glsl -- functions for depth edge detection to make outlines
 
 uniform sampler2D depthtex0;
-uniform float near;
-uniform float far;
-// wherever you are
 
 // sobel matrices for edge detection
 mat3 sobel_y = mat3( 
@@ -30,9 +27,6 @@ mat3 sobel_x = mat3(
 
 // technique taken from https://gamedev.stackexchange.com/questions/159585/sobel-edge-detection-on-depth-texture
 
-float ld(float depth) {
-   return (2.0 * near) / (far + near - depth * (far - near));
-}
 // returns the monochrome map of an outline based on the depth map of the scene
 float outline(vec2 coord, vec2 pixelSize) {
 	vec2 pixelCoord = 1.0 / vec2(viewWidth, viewHeight) * pixelSize / 2;
