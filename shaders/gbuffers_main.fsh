@@ -44,9 +44,17 @@ void main() {
 	#endif
 
 	// underwater treatment
-	// makes it darker off into the distance and gives blue tint
-	if(isEyeInWater == 1)
-		albedo *= vec4(vec3(1.0-pow(gl_FragCoord.z, 128.0) + 1.0-pow(gl_FragCoord.z, 16.0)), 1.0) * vec4(0.5, 0.6, 1.0, 1.0);
+	if(isEyeInWater == 1) {
+		// start with different albedo, darker bluer lightmap
+		vec3 lm = clamp(texture2D(lightmap, lmcoord.st).rgb, vec3(0.2, 0.2, 0.4), vec3(1.0)) * vec3(0.7, 0.8, 1.0);
+		albedo = texture2D(texture, texcoord.st) * vec4(lm, 1.0) * color;
+		// bluish fog
+		float depth = ld(gl_FragCoord.z);
+		vec3 fog = vec3(clamp(depth*2.0, 0.0, 0.5));
+		fog *= vec3(0.4, 0.5, 0.8);
+		// add fog to albedo
+		albedo = vec4(mix(albedo.rgb, fog, clamp01(depth * 2.5)), albedo.a);
+	}
 
 	// color/albedo map
 	gl_FragData[0] = albedo;

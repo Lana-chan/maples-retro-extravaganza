@@ -17,6 +17,11 @@ float max3(vec3 v) {
   return max(max(v.x, v.y), v.z);
 }
 
+// clamp to 0.0-1.0
+float clamp01(float v) {
+	return clamp(v, 0.0, 1.0);
+}
+
 // linearize depth
 float ld(float depth) {
   return (2.0 * near) / (far + near - depth * (far - near));
