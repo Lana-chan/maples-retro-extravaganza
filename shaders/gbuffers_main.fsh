@@ -46,7 +46,7 @@ void main() {
 	// underwater treatment
 	if(isEyeInWater == 1) {
 		// start with different albedo, darker bluer lightmap
-		vec3 lm = clamp(texture2D(lightmap, lmcoord.st).rgb, vec3(0.2, 0.2, 0.4), vec3(1.0)) * vec3(0.7, 0.8, 1.0);
+		vec3 lm = clamp(texture2D(lightmap, lmcoord.st).rgb, vec3(0.2, 0.2, 0.4), vec3(1.0)) * vec3(0.6, 0.7, 1.0);
 		albedo = texture2D(texture, texcoord.st) * vec4(lm, 1.0) * color;
 		// bluish fog
 		float depth = ld(gl_FragCoord.z);
