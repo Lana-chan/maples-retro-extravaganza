@@ -39,3 +39,6 @@ option.Preprocess=Pre-processing
 screen.crt_screen=CRT effects
 option.sl_strength=Scanline Strength
 option.sl_thickness=Scanline Thickness
+option.ntsc_strength=Dot-crawl Strength
+option.ntsc_blur=NTSC Color Smear
+option.crt_depth=CRT Depth

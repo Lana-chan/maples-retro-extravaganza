@@ -10,6 +10,8 @@
 
 // crt.glsl -- functions for scanline and crt filters
 
+// many thanks to https://twitter.com/JoshJers for some of the info applied here
+
 uniform int frameCounter;
 
 vec3 rgb[] = vec3[3](
