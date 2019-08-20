@@ -13,6 +13,13 @@
 // #define Outlines 							// Adds outline to shapes, good for use with Hypercard Dreams palette.
 #define outline_mode 0						// [0 1 2] Picks rendering mode for outlines
 
-// #define Scanlines							// Adds scanline effect to the screen
-#define sl_thickness 1						// [1 2 3] Scanline thickness
+#define Scanlines									// Adds scanline effect to the screen
+#define sl_thickness 2						// [1 2 3] Scanline thickness
 #define sl_strength 0.2						// [0.0 0.1 0.2 0.3 0.4 0.5 0.6 0.7 0.8 0.9 1.0] How much the scanline darkens the image
+
+// #define NTSC										// Add NTSC dot-crawl and blur effect to the screen.
+#define ntsc_strength 0.3					// [0.0 0.1 0.2 0.3 0.4 0.5] Strength of the dot-crawl NTSC color effect ! Recommended locking to 60fps for this effect !
+#define ntsc_blur 0.3							// [0.0 0.1 0.2 0.3 0.4 0.5]
+
+#define CRT												// Distort screen to CRT shape
+#define crt_depth 0.8							// [0.0 0.1 0.2 0.3 0.4 0.5 0.6 0.7 0.8 0.9 1.0] Depth for CRT distortion

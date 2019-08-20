@@ -39,3 +39,11 @@ float ntsc(vec3 color, vec2 TC, vec2 pixelSize, float strength) {
 
 	return ntscColor;
 }
+
+// warps texcoord to crt shape
+vec2 crtDistort(vec2 TC, vec2 distortStrength) {
+	vec2 t = TC * 2.0 - 1.0; // texture coordinate, x and y both in -1 to 1
+	float r = dot(t, t); // length squared of t
+	t *= (1 + distortStrength.xy * r * r);
+	return t / 2 + 0.5;
+}
