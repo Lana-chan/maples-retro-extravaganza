@@ -16,6 +16,7 @@ included palettes:
 10. Mode 13h (_256 color VGA_)
 11. SimpleJPC-16 (_by [@adigunpolack](https://twitter.com/adigunpolack)_)
 12. Human Entertainment System (_NES_)
+13. Pico-8 ([_Fantasy Game Console_](https://www.lexaloffle.com/pico-8.php))
 
 ## screenshots
 

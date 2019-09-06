@@ -2,7 +2,7 @@
 #define pixel_size 3							//[0 1 2 3 4 5 6 7 8 9] Chooses the pixel size for pixelization and color dithering
 
 #define Dither										// Enables or disables palette color filtering
-#define s_palette_id 0						//[0 1 2 3 4 5 6 7 8 9 10 11 12] Chooses the palette to apply
+#define s_palette_id 0						//[0 1 2 3 4 5 6 7 8 9 10 11 12 13] Chooses the palette to apply
 #define dither_factor 0.7					//[0.0 0.1 0.2 0.3 0.4 0.5 0.6 0.7 0.8 0.9 1.0] Chooses how much dither to use, 0 is no dither and 1 is only dither. A higher dither value can help with palettes with fewer colors, such as CGA.
 
 #define Preprocess								// Enables or disables color pre-processing. Increasing contrast helps get better results with a more limited palette.
@@ -18,7 +18,7 @@
 #define sl_strength 0.2						// [0.0 0.1 0.2 0.3 0.4 0.5 0.6 0.7 0.8 0.9 1.0] How much the scanline darkens the image
 
 // #define NTSC										// Add NTSC dot-crawl and blur effect to the screen.
-#define ntsc_strength 0.3					// [0.0 0.1 0.2 0.3 0.4 0.5] Strength of the dot-crawl NTSC color effect ! Recommended locking to 60fps for this effect !
+#define ntsc_strength 0.3					// [0.0 0.1 0.2 0.3 0.4 0.5] Strength of the dot-crawl NTSC color effect. ! Recommended locking to 60fps for this effect !
 #define ntsc_blur 0.3							// [0.0 0.1 0.2 0.3 0.4 0.5]
 
 #define CRT												// Distort screen to CRT shape

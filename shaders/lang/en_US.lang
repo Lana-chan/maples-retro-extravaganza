@@ -13,6 +13,7 @@ value.s_palette_id.9=Hypercard Dreams
 value.s_palette_id.10=Mode 13h
 value.s_palette_id.11=SimpleJPC16 by @adigunpolack
 value.s_palette_id.12=Human Entertainment System
+value.s_palette_id.13=Pico-8
 
 option.pixel_size=Pixel Size
 value.pixel_size.0=1x
