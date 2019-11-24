@@ -15,6 +15,7 @@ varying vec2 texcoord;
 varying vec2 lmcoord;
 varying vec4 color;
 varying mat3 TBN;
+varying vec3 vNormal;
 
 uniform sampler2D normals;
 uniform sampler2D texture;
@@ -36,12 +37,21 @@ void main() {
 		albedo = color;
 	#endif
 
+	// shading for entities and blocks
+	// finagled values, probably not accurate to what the vanilla shader does at all
+	#if defined HAND || defined ENTITIES  || defined BLOCK
+		vec3 light1 = vec3( 0.1, 0.6, 0.2);
+		vec3 light2 = vec3(-0.1, 0.0,-0.2);
+		albedo.rgb *= ((clamp(dot(vNormal, light1), 0.0, 1.0) + clamp(dot(vNormal, light2), 0.0, 1.0) * 0.6) + 0.4);
+	#endif
+
 	// entity color effect, hurt mob etc
 	#ifdef ENTITIES
 		albedo.rgb += entityColor.rgb;
 		if(max3(albedo.rgb) > 1.0)
 			albedo.rgb /= max3(albedo.rgb);
 	#endif
+
 
 	// underwater treatment
 	if(isEyeInWater == 1) {

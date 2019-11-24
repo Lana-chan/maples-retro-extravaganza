@@ -12,6 +12,7 @@ varying vec2 texcoord;
 varying vec2 lmcoord;
 varying vec4 color;
 varying mat3 TBN;
+varying vec3 vNormal;
 attribute vec4 at_tangent;
 
 uniform mat4 gbufferModelView;
@@ -25,7 +26,8 @@ void main() {
 	vec3 normal   = gl_NormalMatrix * gl_Normal;
 	vec3 tangent  = gl_NormalMatrix * (at_tangent.xyz / at_tangent.w);
 	TBN = mat3(tangent, cross(tangent, normal), normal);
-	
+	vNormal = normalize(vec3(vec4(normal, 0.0) * transpose(gbufferModelViewInverse)));
+
 	//gl_Position = ftransform();
 	//color = gl_Color;
 
