@@ -21,7 +21,7 @@ vec3 rgb[] = vec3[3](
 );
 
 // gaussian blur 5px
-uniform float weight[5] = float[] (0.227027, 0.1945946, 0.1216216, 0.054054, 0.016216);
+float weight[5] = float[] (0.227027, 0.1945946, 0.1216216, 0.054054, 0.016216);
 
 // generates scanlines
 float scanline(vec2 newTC, vec2 pixelSize, float thickness, float strength) {
